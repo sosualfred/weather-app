@@ -5,82 +5,64 @@
 //  Created by sosualfred on 17/06/2024.
 //
 
+import CoreLocation
 import SwiftUI
-import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    @StateObject var forecastListVM = ForecastListViewModel()
+    
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            VStack {
+                Picker(selection: $forecastListVM.system, label: Text("System")) {
+                    Text("°C").tag(0)
+                    Text("°F").tag(1)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.vertical)
+                HStack {
+                    TextField("Enter Location", text: $forecastListVM.location)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Button(action: {
+                        forecastListVM.getWeatherForecast()
+                    }, label: {
+                        Image(systemName: "magnifyingglass.circle.fill")
+                            .font(.title3)
+                    })
+                }
+                List(forecastListVM.forecasts, id: \.day) {
+                    day in VStack(alignment: .leading){
+                        Text(day.day)
+                            .fontWeight(.bold)
+                        HStack(alignment: .center) {
+                            Image(systemName: "hourglass")
+                                .font(.title)
+                                .frame(width: 50, height: 50)
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.green))
+                            VStack(alignment: .leading){
+                                Text(day.overview)
+                                HStack {
+                                    Text(day.high)
+                                    Text(day.low)
+                                }
+                                HStack{
+                                    Text(day.clouds)
+                                    Text(day.pop)
+                                }
+                                Text(day.humidity)
+                            }
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .listStyle(PlainListStyle())
+          
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            .padding(.horizontal)
+            .navigationTitle("Weather App")
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView();
 }
