@@ -19,6 +19,7 @@
 		2A8C48952C20EF4F007C0D98 /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C48942C20EF4F007C0D98 /* Forecast.swift */; };
 		2A8C48972C2228F8007C0D98 /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C48962C2228F8007C0D98 /* ForecastViewModel.swift */; };
 		2A8C48992C222DFD007C0D98 /* ForecastListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C48982C222DFD007C0D98 /* ForecastListViewModel.swift */; };
+		2A8C489C2C224CD4007C0D98 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8C489B2C224CD4007C0D98 /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A8C489C2C224CD4007C0D98 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +160,9 @@
 			dependencies = (
 			);
 			name = "Weather App";
+			packageProductDependencies = (
+				2A8C489B2C224CD4007C0D98 /* SDWebImageSwiftUI */,
+			);
 			productName = "Weather App";
 			productReference = 2A8C48602C1FB8F3007C0D98 /* Weather App.app */;
 			productType = "com.apple.product-type.application";
@@ -230,6 +235,9 @@
 				Base,
 			);
 			mainGroup = 2A8C48572C1FB8F3007C0D98;
+			packageReferences = (
+				2A8C489A2C224CD4007C0D98 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = 2A8C48612C1FB8F3007C0D98 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -608,6 +616,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2A8C489A2C224CD4007C0D98 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI?tab=readme-ov-file";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2A8C489B2C224CD4007C0D98 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A8C489A2C224CD4007C0D98 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2A8C486E2C1FB8F4007C0D98 /* Weather_App.xcdatamodeld */ = {
