@@ -11,12 +11,18 @@ import SwiftUI
 
 class ForecastListViewModel : ObservableObject {
     @Published var forecasts: [ForecastViewModel] = []
-    var location: String = ""
+    @AppStorage("location") var location: String = ""
     @AppStorage("system") var system: Int = 0 {
         didSet {
             for i in 0..<forecasts.count {
                 forecasts[i].system = system
             }
+        }
+    }
+    
+    init(){
+        if !location.isEmpty {
+            getWeatherForecast()
         }
     }
     
